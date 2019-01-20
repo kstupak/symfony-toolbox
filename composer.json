@@ -1,0 +1,24 @@
+{
+    "name": "kstupak/toolbox",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kostiantyn Stupak",
+            "email": "konstantin.stupak@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "ramsey/uuid": "^4.0@dev",
+        "ircmaxell/random-lib": "^1.1@dev",
+        "nikic/iter": "^2.0@dev",
+        "doctrine/collections": "^1.6@dev"
+    },
+    "description": "",
+    "autoload": {
+        "psr-4": {
+            "Toolbox\\": "src"
+        }
+    }
+}
