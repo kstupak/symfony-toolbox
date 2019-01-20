@@ -8,12 +8,12 @@
             "email": "konstantin.stupak@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
-        "ramsey/uuid": "^4.0@dev",
-        "ircmaxell/random-lib": "^1.1@dev",
-        "nikic/iter": "^2.0@dev",
-        "doctrine/collections": "^1.6@dev"
+        "ramsey/uuid": "^3.8",
+        "ircmaxell/random-lib": "^1.2",
+        "nikic/iter": "^1.6",
+        "doctrine/collections": "^1.5"
     },
     "description": "",
     "autoload": {
