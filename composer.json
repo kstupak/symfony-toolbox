@@ -13,9 +13,14 @@
         "ramsey/uuid": "^3.8",
         "ircmaxell/random-lib": "^1.2",
         "nikic/iter": "^1.6",
-        "doctrine/collections": "^1.5"
+        "doctrine/collections": "^1.5",
+        "doctrine/orm": "^2.6",
+        "sensio/framework-extra-bundle": "^5.2",
+        "symfony/serializer": "^4.2",
+        "symfony/yaml": "^4.2",
+        "beberlei/assert": "^3.2"
     },
-    "description": "",
+    "description": "Set of classes and utils I use throughout my projects",
     "autoload": {
         "psr-4": {
             "Toolbox\\": "src"
