@@ -25,7 +25,7 @@ trait CanRespondWithJson
 
     private function respond($data, int $code = Response::HTTP_OK, array $serializationGroups = [], array $customHeaders = []): Response
     {
-        Assert::thatAll($this->serializer)
+        Assert::that($this->serializer)
             ->notEmpty('Serializer must be defined')
             ->isInstanceOf(SerializerInterface::class, 'Serializer must conform to SerializerInterface');
 
