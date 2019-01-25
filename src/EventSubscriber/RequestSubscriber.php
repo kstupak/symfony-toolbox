@@ -11,11 +11,12 @@
 namespace Toolbox\EventSubscriber;
 
 
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Toolbox\Utility\InputStreamReader;
 
-final class RequestSubscriber
+final class RequestSubscriber implements EventSubscriberInterface
 {
     /** @var InputStreamReader  */
     private $inputStreamReader;

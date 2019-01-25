@@ -11,6 +11,7 @@
 namespace Toolbox\EventSubscriber;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +20,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-final class ExceptionSubscriber
+final class ExceptionSubscriber implements EventSubscriberInterface
 {
     /** @var LoggerInterface  */
     private $logger;
