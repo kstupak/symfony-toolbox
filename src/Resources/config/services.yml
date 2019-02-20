@@ -1,0 +1,12 @@
+services:
+  Toolbox\EventSubscriber\RequestSubscriber:
+    class: Toolbox\EventSubscriber\RequestSubscriber
+
+  Toolbox\EventSubscriber\ExceptionSubscriber:
+    class: Toolbox\EventSubscriber\ExceptionSubscriber
+
+  Toolbox\Utility\InputStreamReader:
+    class: Toolbox\Utility\InputStreamReader
+
+  Toolbox\Service\ExceptionResolver:
+    class: Toolbox\Services\BasicExceptionResolver

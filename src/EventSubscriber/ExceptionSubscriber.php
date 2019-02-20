@@ -12,28 +12,28 @@ namespace Toolbox\EventSubscriber;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Toolbox\Service\ExceptionResolver;
 
 final class ExceptionSubscriber implements EventSubscriberInterface
 {
     /** @var LoggerInterface  */
     private $logger;
-
     /** @var string  */
     private $env;
+    /** @var ExceptionResolver */
+    private $exceptionResolver;
 
     public function __construct(
         LoggerInterface $logger,
+        ExceptionResolver $exceptionResolver,
         string $env = 'prod'
     ){
-        $this->logger           = $logger;
-        $this->env              = $env;
+        $this->exceptionResolver = $exceptionResolver;
+        $this->logger            = $logger;
+        $this->env               = $env;
     }
 
     public static function getSubscribedEvents()
@@ -45,40 +45,26 @@ final class ExceptionSubscriber implements EventSubscriberInterface
 
     public function onException(GetResponseForExceptionEvent $event)
     {
-        $exceptionClass = get_class($event->getException());
+        $resolved = $this-> exceptionResolver->resolve($event->getException());
 
-        switch ($exceptionClass) {
-            case \InvalidArgumentException::class:
-                $code = Response::HTTP_BAD_REQUEST;
-                $message = 'Bad request';
-                break;
-            case \Assert\InvalidArgumentException::class:
-                $code = Response::HTTP_BAD_REQUEST;
-                $message = $event->getException()->getMessage();
-                break;
-
-            case NotFoundHttpException::class:
-                $code = Response::HTTP_NOT_FOUND;
-                $message = 'Resource not found';
-                break;
-
-            case BadRequestHttpException::class:
-                $code = Response::HTTP_BAD_REQUEST;
-                $message = 'Bad request';
-                break;
-
-            case AccessDeniedException::class:
-                $code = Response::HTTP_FORBIDDEN;
-                $message = 'Forbidden';
-                break;
-
-            default:
-                $code = Response::HTTP_INTERNAL_SERVER_ERROR;
-                $message = 'Error';
-                break;
+        if ($this->env === 'dev') {
+            $this->logger->critical(
+                sprintf(
+                    '%s @ %s:%s',
+                    $event->getException()->getMessage(),
+                    $event->getException()->getFile(),
+                    $event->getException()->getLine())
+            );
         }
 
-        $this->logger->critical(sprintf('%s @ %s:%s', $event->getException()->getMessage(), $event->getException()->getFile(), $event->getException()->getLine()));
-        $event->setResponse(new JsonResponse($this->env === 'dev' ? $event->getException()->getMessage() : $message, $code));
+
+        $event->setResponse(
+            new JsonResponse(
+                $this->env === 'dev'
+                    ? $event->getException()->getMessage()
+                    : $resolved->getMessage()
+                , $resolved->getCode()
+            )
+        );
     }
 }
