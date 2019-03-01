@@ -18,6 +18,7 @@ use Toolbox\Model\Filter\FilterInterface;
 
 final class FilterFactory
 {
+    /** @var array */
     private $classMap = [];
 
     public function registerFilterType(FilterInterface $filter)
@@ -31,10 +32,10 @@ final class FilterFactory
         return $this->classMap[$type];
     }
 
-    public function createFromRequestData(array $requestData): Collection
+    public function createFromArray(array $input): Collection
     {
         $collection = new ArrayCollection();
-        foreach ($requestData as $type => $value) {
+        foreach ($input as $type => $value) {
             $filterClass = $this->getFilterClassForType($type);
 
             $filter = call_user_func([$filterClass, 'createForValue'], $value);

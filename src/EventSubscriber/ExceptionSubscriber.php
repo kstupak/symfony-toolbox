@@ -45,7 +45,7 @@ final class ExceptionSubscriber implements EventSubscriberInterface
 
     public function onException(GetResponseForExceptionEvent $event)
     {
-        $resolved = $this-> exceptionResolver->resolve($event->getException());
+        $resolved = $this->exceptionResolver->resolve($event->getException());
 
         if ($this->env === 'dev') {
             $this->logger->critical(

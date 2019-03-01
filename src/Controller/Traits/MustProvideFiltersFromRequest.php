@@ -21,12 +21,25 @@ trait MustProvideFiltersFromRequest
     /** @var FilterFactory */
     private $filterFactory;
 
-    private function extractFilters(Request $request): Collection
+    private function extractFilters(Request $request, bool $terminateOnInvalidData = false): Collection
     {
         Assert::thatAll($this->filterFactory)
             ->notEmpty('Filter factory must be defined and accessible')
             ->isInstanceOf(FilterFactory::class, 'Filter factory must be of type FilterFactory');
 
-        return $this->filterFactory->createFromRequestData($request->query->all());
+        $input = $this->extractRequestInput($request, $terminateOnInvalidData);
+        return $this->filterFactory->createFromArray($input);
+    }
+
+    private function extractRequestInput(Request $request, bool $terminateOnInvalidData = false): array
+    {
+        $data = $request->get('filter');
+        $valid = is_array($data) && !empty($data);
+
+        if (!$valid && $terminateOnInvalidData) {
+            throw new \InvalidArgumentException('Filter data provided is invalid');
+        }
+
+        return $valid ? $data : [];
     }
 }

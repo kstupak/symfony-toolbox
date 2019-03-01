@@ -10,7 +10,13 @@
 
 namespace Toolbox\Service\API;
 
+use Doctrine\Common\Collections\Collection;
+
 interface CRUDService
 {
-
+    public function list(?Collection $filters = null): Collection;
+    public function get(string $id);
+    public function create($data);
+    public function update(string $id, $data);
+    public function delete(string $id): bool;
 }

@@ -15,7 +15,7 @@ use Doctrine\ORM\QueryBuilder;
 interface FilterInterface
 {
     public static function getName(): string;
-    public static function createForValue(): self;
+    public static function createForValue($value): self;
 
     public function applyTo(QueryBuilder $builder, string $rootAlias = null);
 }
