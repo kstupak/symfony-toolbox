@@ -23,7 +23,7 @@ trait MustProvideFiltersFromRequest
 
     private function extractFilters(Request $request, bool $terminateOnInvalidData = false): Collection
     {
-        Assert::thatAll($this->filterFactory)
+        Assert::that($this->filterFactory)
             ->notEmpty('Filter factory must be defined and accessible')
             ->isInstanceOf(FilterFactory::class, 'Filter factory must be of type FilterFactory');
 
